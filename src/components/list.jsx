@@ -1,41 +1,48 @@
-import React from 'react';
 import ListItem from './listItem'
-import data from '../data.json';
+import * as Promise from 'bluebird';
+import React, { Component } from 'react';
 
-var chokidar = require('chokidar');
-var sessionAudioFilesFolder = '/Users/reina-longoria/Desktop/test-directory'
-var fileEventData = {files:[]};
 
-chokidar.watch(sessionAudioFilesFolder, {ignored: /(^|[\/\\])\../})
-  .on('all', (event, path) => {
-    // console.log(event, path);
-    fileEventData.files.push(path)
-    console.log(fileEventData)
-});
+class List extends Component {
+  constructor(props) {
+    super(props);
 
-let List = React.createClass({
-  createListItem: function (listItem) {
-    console.log(`create list item was called with ${listItem}`)
-    return <ListItem source={listItem} key={listItem} />;
-  },
+    this.state = {
+      list: [{event:'placeholder', path:'/placeholderpath'}],
+      sessionAudioFilesFolder: '/Users/502HD/Desktop/test-folder'
+    }
+  }
 
-  createListItems: function (listItems) {
-    return listItems.map(this.createListItem);
-  },
+  watchForFiles(){
+    var chokidar = require('chokidar');
 
-  render: function () {
+    var watcher = chokidar.watch(this.state.sessionAudioFilesFolder, {
+      ignored: /(^|[\/\\])\../,
+      persistent: true
+    });
+    watcher.on('add', (event, path) => {
+      // console.log(event, path);
+      this.setState(state=>{
+        const list = state.list.concat({event:path})
+        return {list}
+      })
+    });
+  }
+
+
+
+  render() {
     return (
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12 text-center">
-
-            {this.createListItems(fileEventData.files)}
-
-          </div>
-        </div>
+      <div>
+        <ul>
+          // {this.watchForFiles()}
+          {this.state.list.map(fileEvent => (
+            <li key={fileEvent.path}>{fileEvent.event} - {fileEvent.path}</li>
+          ))}
+        </ul>
       </div>
     );
   }
-});
+}
 
 export default List;
