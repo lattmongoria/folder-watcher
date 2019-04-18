@@ -1,6 +1,11 @@
 import ListItem from './listItem'
 import React, { Component } from 'react';
 
+const {dialog} = require('electron').remote;
+
+var sessionAudioFilesFolder = dialog.showOpenDialog({
+    properties: ['openDirectory']
+});
 
 class List extends Component {
   constructor(props) {
@@ -8,7 +13,7 @@ class List extends Component {
 
     this.state = {
       list: [],
-      sessionAudioFilesFolder: '/Users/502HD/Desktop/test-directory'
+      sessionAudioFilesFolder: sessionAudioFilesFolder
     }
   }
 
@@ -23,7 +28,6 @@ class List extends Component {
     .on('add', (path, event) => {
       function checkIfThePathIsInTheList(arr, path) {
         return  arr.some(function(arrVal){
-          console.log(arrVal, path)
           return arrVal.event === path
         })
       }
@@ -35,7 +39,9 @@ class List extends Component {
           })
         }
     })
-
+    .on('unlink', (params) => {
+      console.log(params)
+    })
   }
 
 
@@ -45,6 +51,7 @@ class List extends Component {
       <div>
         <ul>
           {this.watchForFiles()}
+
           {this.state.list.map( (fileEvent,index) => (
             <li key={index}>{fileEvent.event}</li>
           ))}
