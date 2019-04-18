@@ -20,9 +20,8 @@ class List extends Component {
       ignored: /(^|[\/\\])\../,
       persistent: true
     });
-    watcher.on('add', (path, event) => {
-
-
+    watcher
+    .on('add', (path, event) => {
       function checkIfThePathIsInTheList(arr, path) {
         return  arr.some(function(arrVal){
           console.log(arrVal, path)
@@ -36,7 +35,8 @@ class List extends Component {
             return {list}
           })
         }
-    });
+    })
+
   }
 
 
@@ -47,7 +47,7 @@ class List extends Component {
         <ul>
           // {this.watchForFiles()}
           {this.state.list.map( (fileEvent,index) => (
-            <li key={index}>{fileEvent.event} - {fileEvent.path}</li>
+            <li key={index}>{fileEvent.event}</li>
           ))}
         </ul>
       </div>
