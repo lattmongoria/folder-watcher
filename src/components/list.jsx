@@ -24,14 +24,13 @@ class List extends Component {
       ignored: /(^|[\/\\])\../,
       persistent: true
     });
+    function checkIfThePathIsInTheList(arr, path) {
+      return  arr.some(function(arrVal){
+        return arrVal.event === path
+      })
+    }
     watcher
     .on('add', (path, event) => {
-      function checkIfThePathIsInTheList(arr, path) {
-        return  arr.some(function(arrVal){
-          return arrVal.event === path
-        })
-      }
-
         if (checkIfThePathIsInTheList(this.state.list, path) != true){
           this.setState(state=>{
             const list = state.list.concat({event:path})
@@ -39,8 +38,18 @@ class List extends Component {
           })
         }
     })
-    .on('unlink', (params) => {
-      console.log(params)
+    .on('unlink', (deletedFile) => {
+      var updatedArray = [...this.state.list];
+
+      function theLocationOfTheDeletedFile(fileInList) {
+        return fileInList.event === deletedFile;
+      }
+
+      var indexOfOutgoingFile = this.state.list.findIndex(theLocationOfTheDeletedFile)
+
+      updatedArray.splice(indexOfOutgoingFile, 1);
+      this.setState({list: updatedArray});
+
     })
   }
 
