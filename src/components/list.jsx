@@ -1,5 +1,4 @@
 import ListItem from './listItem'
-import * as Promise from 'bluebird';
 import React, { Component } from 'react';
 
 
@@ -9,7 +8,7 @@ class List extends Component {
 
     this.state = {
       list: [],
-      sessionAudioFilesFolder: '/Users/reina-longoria/Desktop/test-directory'
+      sessionAudioFilesFolder: '/Users/502HD/Desktop/test-directory'
     }
   }
 
@@ -45,7 +44,7 @@ class List extends Component {
     return (
       <div>
         <ul>
-          // {this.watchForFiles()}
+          {this.watchForFiles()}
           {this.state.list.map( (fileEvent,index) => (
             <li key={index}>{fileEvent.event}</li>
           ))}
