@@ -9,7 +9,7 @@ class List extends Component {
 
     this.state = {
       list: [{event:'placeholder', path:'/placeholderpath'}],
-      sessionAudioFilesFolder: '/Users/502HD/Desktop/test-folder'
+      sessionAudioFilesFolder: '/Users/reina-longoria/Desktop/test-directory'
     }
   }
 
@@ -20,8 +20,8 @@ class List extends Component {
       ignored: /(^|[\/\\])\../,
       persistent: true
     });
-    watcher.on('add', (event, path) => {
-      // console.log(event, path);
+    watcher.on('add', (path, event) => {
+      console.log(event);
       this.setState(state=>{
         const list = state.list.concat({event:path})
         return {list}
@@ -36,8 +36,8 @@ class List extends Component {
       <div>
         <ul>
           // {this.watchForFiles()}
-          {this.state.list.map(fileEvent => (
-            <li key={fileEvent.path}>{fileEvent.event} - {fileEvent.path}</li>
+          {this.state.list.map( (fileEvent,index) => (
+            <li key={index}>{fileEvent.event} - {fileEvent.path}</li>
           ))}
         </ul>
       </div>
