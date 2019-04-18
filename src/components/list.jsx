@@ -33,7 +33,9 @@ class List extends Component {
     .on('add', (path, event) => {
         if (checkIfThePathIsInTheList(this.state.list, path) != true){
           this.setState(state=>{
-            const list = state.list.concat({event:path})
+            const list = state.list.concat({event:path}).sort(function(a,b){
+              return b.event > a.event
+            })
             return {list}
           })
         }
