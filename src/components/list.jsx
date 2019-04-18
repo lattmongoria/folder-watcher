@@ -8,7 +8,7 @@ class List extends Component {
     super(props);
 
     this.state = {
-      list: [{event:'placeholder', path:'/placeholderpath'}],
+      list: [],
       sessionAudioFilesFolder: '/Users/reina-longoria/Desktop/test-directory'
     }
   }
@@ -21,11 +21,23 @@ class List extends Component {
       persistent: true
     });
     watcher.on('add', (path, event) => {
-      console.log(event);
-      this.setState(state=>{
-        const list = state.list.concat({event:path})
-        return {list}
-      })
+
+
+      function checkIfThePathIsInTheList(arr, path) {
+        return  arr.some(function(arrVal){
+          return arrVal.path === path
+        })
+      }
+
+        console.log(`true of false: ${checkIfThePathIsInTheList(this.state.list, path)}`)
+        console.log(path)
+        console.log(this.state.list)
+        if (checkIfThePathIsInTheList(this.state.list, path)){
+          this.setState(state=>{
+            const list = state.list.concat({event:path})
+            return {list}
+          })
+        }
     });
   }
 
