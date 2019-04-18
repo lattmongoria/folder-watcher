@@ -1,11 +1,11 @@
 import ListItem from './listItem'
 import React, { Component } from 'react';
 
-const {dialog} = require('electron').remote;
-
-var sessionAudioFilesFolder = dialog.showOpenDialog({
-    properties: ['openDirectory']
-});
+// const {dialog} = require('electron').remote;
+//
+// var sessionAudioFilesFolder = dialog.showOpenDialog({
+//     properties: ['openDirectory']
+// });
 
 class List extends Component {
   constructor(props) {
@@ -13,7 +13,7 @@ class List extends Component {
 
     this.state = {
       list: [],
-      sessionAudioFilesFolder: sessionAudioFilesFolder
+      sessionAudioFilesFolder: this.props.sessionAudioFilesFolder
     }
   }
 
