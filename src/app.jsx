@@ -66,6 +66,3 @@ export default class App extends React.Component {
     </div>);
   }
 }
-
-
-/*here's where I started getting crazy*/
