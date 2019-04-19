@@ -3,7 +3,11 @@ import React from 'react';
 
 let ListItem = function statelessFunctionComponentClass(props) {
   return (
-    <li className="list-group-item">{props.fileEvent}</li>
+    <tr>
+      <td>{props.fileEvent}</td>
+      <td></td>
+      <td></td>
+    </tr>
   );
 };
 

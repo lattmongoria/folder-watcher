@@ -6,11 +6,20 @@ class List extends Component {
   render() {
     return (
       <div>
-        <ul className="list-group">
-          {this.props.list.map( (fileEvent,index) => (
-            <ListItem key={index} fileEvent={fileEvent} />
-          ))}
-        </ul>
+        <table className="table-striped">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Kind</th>
+              <th>File Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.list.map( (fileEvent,index) => (
+              <ListItem key={index} fileEvent={fileEvent} />
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
