@@ -6,9 +6,9 @@ class List extends Component {
   render() {
     return (
       <div>
-        <ul>
+        <ul className="list-group">
           {this.props.list.map( (fileEvent,index) => (
-            <li key={index}>{fileEvent}</li>
+            <ListItem key={index} fileEvent={fileEvent} />
           ))}
         </ul>
       </div>
