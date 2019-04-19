@@ -1,5 +1,6 @@
 import React from 'react';
 import List from './components/list';
+import fs from 'fs';
 
 const {dialog} = require('electron').remote;
 
@@ -30,6 +31,16 @@ export default class App extends React.Component {
       })
     }
     watcher
+    .on('ready', (event, path)=>{
+      let filePath = this.state.sessionAudioFilesFolder[0]
+      fs.readdir(filePath, (err, files) => {
+        this.setState(state => {
+          const list = files.slice(1);
+          return {list}
+        })
+      })
+    })
+/*
     .on('add', (path, event) => {
         if (checkIfThePathIsInTheList(this.state.list, path) != true){
           this.setState(state=>{
@@ -53,6 +64,7 @@ export default class App extends React.Component {
       this.setState({list: updatedArray});
 
     })
+*/
   }
 
   render() {
