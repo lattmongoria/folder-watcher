@@ -25,21 +25,14 @@ export default class App extends React.Component {
       ignored: /(^|[\/\\])\../,
       persistent: true
     });
-    function checkIfThePathIsInTheList(arr, path) {
-      return  arr.some(function(arrVal){
-        return arrVal.event === path
-      })
-    }
 
     watcher
-    .on('ready', (event, path)=>{
+    .on('all', (event, path)=>{
       let filePath = this.state.sessionAudioFilesFolder[0]
-      fs.readdir(filePath, (err, files) => {
         this.setState(state => {
-          const list = files.slice(1);
+          const list = watcher.getWatched()[sessionAudioFilesFolder];
           return {list}
         })
-      })
     })
   }
 
@@ -49,9 +42,19 @@ export default class App extends React.Component {
       {this.watchForFiles()}
       <header className="toolbar toolbar-header">
         <h1 className="title">{sessionAudioFilesFolder}</h1>
+        <div className="toolbar-actions">
+          <div className="btn-group">
+            <button className="btn btn-default">
+              <span className="icon icon-folder"></span>
+            </button>
+          </div>
+
+
+      </div>
       </header>
-      <Table sessionAudioFilesFolder={sessionAudioFilesFolder}
-            list={this.state.list}
+      <Table
+        sessionAudioFilesFolder={sessionAudioFilesFolder}
+        list={this.state.list}
       />
     </div>);
   }
