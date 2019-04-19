@@ -1,5 +1,5 @@
 import React from 'react';
-import List from './components/list';
+import Table from './components/table';
 import fs from 'fs';
 
 const {dialog} = require('electron').remote;
@@ -50,7 +50,7 @@ export default class App extends React.Component {
       <header className="toolbar toolbar-header">
         <h1 className="title">{sessionAudioFilesFolder}</h1>
       </header>
-      <List sessionAudioFilesFolder={sessionAudioFilesFolder}
+      <Table sessionAudioFilesFolder={sessionAudioFilesFolder}
             list={this.state.list}
       />
     </div>);

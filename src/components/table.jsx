@@ -1,7 +1,7 @@
-import ListItem from './listItem'
+import TableRow from './tablerow'
 import React, { Component } from 'react';
 
-class List extends Component {
+class Table extends Component {
 
   render() {
     return (
@@ -16,7 +16,7 @@ class List extends Component {
           </thead>
           <tbody>
             {this.props.list.map( (fileEvent,index) => (
-              <ListItem key={index} fileEvent={fileEvent} />
+              <TableRow key={index} fileEvent={fileEvent} />
             ))}
           </tbody>
         </table>
@@ -25,4 +25,4 @@ class List extends Component {
   }
 }
 
-export default List;
+export default Table;
