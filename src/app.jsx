@@ -30,6 +30,7 @@ export default class App extends React.Component {
         return arrVal.event === path
       })
     }
+
     watcher
     .on('ready', (event, path)=>{
       let filePath = this.state.sessionAudioFilesFolder[0]
@@ -40,38 +41,15 @@ export default class App extends React.Component {
         })
       })
     })
-/*
-    .on('add', (path, event) => {
-        if (checkIfThePathIsInTheList(this.state.list, path) != true){
-          this.setState(state=>{
-            const list = state.list.concat({event:path}).sort(function(a,b){
-              return b.event > a.event
-            })
-            return {list}
-          })
-        }
-    })
-    .on('unlink', (deletedFile) => {
-      var updatedArray = [...this.state.list];
-
-      function theLocationOfTheDeletedFile(fileInList) {
-        return fileInList.event === deletedFile;
-      }
-
-      var indexOfOutgoingFile = this.state.list.findIndex(theLocationOfTheDeletedFile)
-
-      updatedArray.splice(indexOfOutgoingFile, 1);
-      this.setState({list: updatedArray});
-
-    })
-*/
   }
 
   render() {
     return (
       <div>
       {this.watchForFiles()}
-      <h2>{sessionAudioFilesFolder}</h2>
+      <header className="toolbar toolbar-header">
+        <h1 className="title">{sessionAudioFilesFolder}</h1>
+      </header>
       <List sessionAudioFilesFolder={sessionAudioFilesFolder}
             list={this.state.list}
       />
