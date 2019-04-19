@@ -18,28 +18,51 @@ export default class App extends React.Component {
     }
   }
 
+  componentDidMount(){
+    this.watchForFiles()
+  }
+
   watchForFiles(){
     var chokidar = require('chokidar');
 
     var watcher = chokidar.watch(this.state.sessionAudioFilesFolder, {
       ignored: /(^|[\/\\])\../,
-      persistent: true
+      persistent: true,
+      alwaysStat: true
     });
 
     watcher
-    .on('all', (event, path)=>{
-      let filePath = this.state.sessionAudioFilesFolder[0]
-        this.setState(state => {
-          const list = watcher.getWatched()[sessionAudioFilesFolder];
-          return {list}
-        })
-    })
+      .on('all', (typeOfEvent, path, stats)=>{
+          var newEvent = {type:typeOfEvent ,path:path, stats:stats}
+
+          if (newEvent.type === 'add'){
+            console.log('add is firing')
+            this.setState(state => {
+              const list = this.state.list;
+              list.push(newEvent)
+              return {list}
+          })
+          }
+
+          if (newEvent.type === 'unlink'){
+            console.log('unlink is firing')
+            this.setState(state => {
+              const list = this.state.list;
+              const indexToSplice = list.findIndex(existingItem => {
+                return existingItem.path === newEvent.path;
+              })
+              console.log(indexToSplice)
+              list.splice(indexToSplice, 1)
+              return {list}
+            })
+          }
+      })
   }
+
 
   render() {
     return (
       <div>
-      {this.watchForFiles()}
       <header className="toolbar toolbar-header">
         <h1 className="title">{sessionAudioFilesFolder}</h1>
         <div className="toolbar-actions">

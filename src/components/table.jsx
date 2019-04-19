@@ -21,7 +21,7 @@ class Table extends Component {
           </thead>
           <tbody>
             {this.props.list.map( (fileEvent,index) => (
-              <TableRow key={index} fileEvent={fileEvent} />
+              <TableRow key={index} fileEvent={fileEvent.path} />
             ))}
           </tbody>
         </table>
