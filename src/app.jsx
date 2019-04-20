@@ -4,9 +4,7 @@ import fs from 'fs';
 
 const {dialog} = require('electron').remote;
 
-var sessionAudioFilesFolder = dialog.showOpenDialog({
-    properties: ['openDirectory']
-});
+
 
 export default class App extends React.Component {
   constructor(props) {
@@ -14,18 +12,36 @@ export default class App extends React.Component {
 
     this.state = {
       list: [],
-      sessionAudioFilesFolder: sessionAudioFilesFolder
+      sessionAudioFilesFolder: ''
     }
+    this.selectSessionAudioFilesFolder = this.selectSessionAudioFilesFolder.bind(this);
   }
 
   componentDidMount(){
-    this.watchForFiles()
+
   }
 
-  watchForFiles(){
+  selectSessionAudioFilesFolder (){
+    console.log('sessionAudioFilesFolder button pressed')
+    console.log(this.state)
+    var newSessionAudioFilesFolder = dialog.showOpenDialog({
+        properties: ['openDirectory']
+    })
+    this.setState({sessionAudioFilesFolder:newSessionAudioFilesFolder[0]})
+    this.watchForFiles(newSessionAudioFilesFolder)
+  }
+
+
+  /*
+  right now it's not working because the watcher is initiated with an empty
+  string. Need to create and destroy watchers as the folder selection changes.
+  */
+  watchForFiles(param){
+    console.log(`param passed to watchForFiles ${param}`)
+
     var chokidar = require('chokidar');
 
-    var watcher = chokidar.watch(this.state.sessionAudioFilesFolder, {
+    var watcher = chokidar.watch(param, {
       ignored: /(^|[\/\\])\../,
       persistent: true,
       alwaysStat: true
@@ -33,7 +49,9 @@ export default class App extends React.Component {
 
     watcher
       .on('all', (typeOfEvent, path, stats)=>{
-          var newEvent = {type:typeOfEvent ,path:path, stats:stats}
+
+          var newEvent = {type:typeOfEvent, path:path, stats:stats}
+
 
           if (newEvent.type === 'add'){
             console.log('add is firing')
@@ -64,10 +82,10 @@ export default class App extends React.Component {
     return (
       <div>
       <header className="toolbar toolbar-header">
-        <h1 className="title">{sessionAudioFilesFolder}</h1>
+        <h1 className="title">{this.sessionAudioFilesFolder}</h1>
         <div className="toolbar-actions">
           <div className="btn-group">
-            <button className="btn btn-default">
+            <button className="btn btn-default" onClick={this.selectSessionAudioFilesFolder}>
               <span className="icon icon-folder"></span>
             </button>
           </div>
@@ -76,7 +94,7 @@ export default class App extends React.Component {
       </div>
       </header>
       <Table
-        sessionAudioFilesFolder={sessionAudioFilesFolder}
+        sessionAudioFilesFolder={this.sessionAudioFilesFolder}
         list={this.state.list}
       />
     </div>);
