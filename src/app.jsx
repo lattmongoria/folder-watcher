@@ -2,6 +2,7 @@ import React from 'react';
 import Table from './components/table';
 import fs from 'fs';
 
+
 const {dialog} = require('electron').remote;
 
 

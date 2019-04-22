@@ -12,6 +12,7 @@ class Table extends Component {
               <th>Name</th>
               <th>File Size</th>
               <th>Type</th>
+              <th>Created</th>
             </tr>
           </thead>
           <tbody>
