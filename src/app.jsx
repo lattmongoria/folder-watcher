@@ -25,6 +25,9 @@ export default class App extends React.Component {
   selectSessionAudioFilesFolder (){
     console.log('sessionAudioFilesFolder button pressed')
     console.log(this.state)
+    this.setState(state => {
+      return {list:[]}
+    })
     var newSessionAudioFilesFolder = dialog.showOpenDialog({
         properties: ['openDirectory']
     })
@@ -74,7 +77,32 @@ export default class App extends React.Component {
               return {list}
             })
           }
+
+
       })
+      // .on('change', fileThatChanged => {
+      //   console.log('change', fileThatChanged)
+      //
+      //   var newArray = this.state.list;
+      //
+      //   function doesObjectMatch(o, param){
+      //     return o.param === param;
+      //   }
+      //
+      //   function findIndexOfChangingEntry(arr, param){
+      //       return arr.findIndex(doesObjectMatch);
+      //   }
+      //
+      //   const target = findIndexOfChangingEntry(newArray,fileThatChanged);
+      //   fs.stat(fileThatChanged, (err, stats) => {
+      //     this.setState( (state, stats) => {
+      //       const newEntry = {path:fileThatChanged, stats:stats}
+      //       console.log('newEntry', newEntry)
+      //       newArray.splice(target, 1, newEntry)
+      //       return {list:newArray}
+      //     })
+      //   })
+      // })
   }
 
 
