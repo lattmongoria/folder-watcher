@@ -33,8 +33,7 @@ export default class App extends React.Component {
 
 
   /*
-  right now it's not working because the watcher is initiated with an empty
-  string. Need to create and destroy watchers as the folder selection changes.
+  I don't like having all of this here. Could it be moved to a module?
   */
   watchForFiles(param){
     console.log(`param passed to watchForFiles ${param}`)

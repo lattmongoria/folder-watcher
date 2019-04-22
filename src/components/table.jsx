@@ -11,12 +11,12 @@ class Table extends Component {
             <tr>
               <th>Name</th>
               <th>File Size</th>
-              <th></th>
+              <th>Type</th>
             </tr>
           </thead>
           <tbody>
-            {this.props.list.map( (fileEvent,index) => (
-              <TableRow key={index} fileEvent={fileEvent} />
+            {this.props.list.map( (listItem,index) => (
+              <TableRow key={index} listItem={listItem} />
             ))}
           </tbody>
         </table>

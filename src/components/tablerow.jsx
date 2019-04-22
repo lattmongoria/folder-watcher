@@ -1,12 +1,13 @@
 import React from 'react';
 const prettyBytes = require('pretty-bytes');
+import getExtension from '../utils/GetExtension';
 
 let TableRow = function statelessFunctionComponentClass(props) {
   return (
     <tr>
-      <td>{props.fileEvent.path}</td>
-      <td>{prettyBytes(props.fileEvent.stats.size)}</td>
-      <td></td>
+      <td>{props.listItem.path}</td>
+      <td>{prettyBytes(props.listItem.stats.size)}</td>
+      <td>{getExtension(props.listItem.path)}</td>
     </tr>
   );
 };
