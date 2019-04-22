@@ -80,29 +80,42 @@ export default class App extends React.Component {
 
 
       })
-      // .on('change', fileThatChanged => {
-      //   console.log('change', fileThatChanged)
-      //
-      //   var newArray = this.state.list;
-      //
-      //   function doesObjectMatch(o, param){
-      //     return o.param === param;
-      //   }
-      //
-      //   function findIndexOfChangingEntry(arr, param){
-      //       return arr.findIndex(doesObjectMatch);
-      //   }
-      //
-      //   const target = findIndexOfChangingEntry(newArray,fileThatChanged);
-      //   fs.stat(fileThatChanged, (err, stats) => {
-      //     this.setState( (state, stats) => {
-      //       const newEntry = {path:fileThatChanged, stats:stats}
-      //       console.log('newEntry', newEntry)
-      //       newArray.splice(target, 1, newEntry)
-      //       return {list:newArray}
-      //     })
-      //   })
-      // })
+      .on('change', fileThatChanged => {
+        console.log('change', fileThatChanged)
+
+        var pathOfFileThatChanged = fileThatChanged;
+        console.log('the pathOfFileThatChanged')
+
+        function doesObjectMatch(o, param){
+          return o.param === param;
+        }
+
+        function findIndexOfChangingEntry(arr, param){
+            return arr.findIndex(doesObjectMatch);
+        }
+
+        // fs.stat(fileThatChanged, (err, stats) => {
+        //   const returnedStats = stats;
+        //
+        //   this.setState( (state, returnedStats) => {
+        //     const newEntry = {type:'change',path:fileThatChanged, stats:returnedStats}
+        //     newArray.splice(target, 1, newEntry)
+        //     return {list:newArray}
+        //   })
+        // })
+
+        this.setState( (state)=>{
+          var newArray = state.list;
+          const target = findIndexOfChangingEntry(newArray,pathOfFileThatChanged);
+          console.log('the file that changed: ',pathOfFileThatChanged)
+          fs.stat(pathOfFileThatChanged, (err, stats)=>{
+            const returnedStats = stats;
+            const newEntry = {type:'change', path:pathOfFileThatChanged, stats:returnedStats}
+            newArray.splice(target, 1, newEntry);
+            return {list:newArray}
+          })
+        })
+      })
   }
 
 
