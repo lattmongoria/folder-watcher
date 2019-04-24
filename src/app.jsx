@@ -23,8 +23,6 @@ export default class App extends React.Component {
   }
 
   selectSessionAudioFilesFolder (){
-    console.log('sessionAudioFilesFolder button pressed')
-    console.log(this.state)
     this.setState(state => {
       return {list:[]}
     })
@@ -36,11 +34,8 @@ export default class App extends React.Component {
   }
 
 
-  /*
-  I don't like having all of this here. Could it be moved to a module?
-  */
+
   watchForFiles(param){
-    console.log(`param passed to watchForFiles ${param}`)
 
     var chokidar = require('chokidar');
 
@@ -57,7 +52,6 @@ export default class App extends React.Component {
 
 
           if (newEvent.type === 'add'){
-            console.log('add is firing')
             this.setState(state => {
               const list = this.state.list;
               list.push(newEvent)
@@ -66,13 +60,11 @@ export default class App extends React.Component {
           }
 
           if (newEvent.type === 'unlink'){
-            console.log('unlink is firing')
             this.setState(state => {
               const list = this.state.list;
               const indexToSplice = list.findIndex(existingItem => {
                 return existingItem.path === newEvent.path;
               })
-              console.log(indexToSplice)
               list.splice(indexToSplice, 1)
               return {list}
             })
@@ -81,10 +73,8 @@ export default class App extends React.Component {
 
       })
       .on('change', fileThatChanged => {
-        console.log('change', fileThatChanged)
 
         var pathOfFileThatChanged = fileThatChanged;
-        console.log('the pathOfFileThatChanged')
 
         function doesObjectMatch(o, param){
           return o.param === param;
@@ -94,20 +84,10 @@ export default class App extends React.Component {
             return arr.findIndex(doesObjectMatch);
         }
 
-        // fs.stat(fileThatChanged, (err, stats) => {
-        //   const returnedStats = stats;
-        //
-        //   this.setState( (state, returnedStats) => {
-        //     const newEntry = {type:'change',path:fileThatChanged, stats:returnedStats}
-        //     newArray.splice(target, 1, newEntry)
-        //     return {list:newArray}
-        //   })
-        // })
 
-        this.setState( (state)=>{
+        this.setState( (state) => {
           var newArray = state.list;
           const target = findIndexOfChangingEntry(newArray,pathOfFileThatChanged);
-          console.log('the file that changed: ',pathOfFileThatChanged)
           fs.stat(pathOfFileThatChanged, (err, stats)=>{
             const returnedStats = stats;
             const newEntry = {type:'change', path:pathOfFileThatChanged, stats:returnedStats}
